@@ -26,19 +26,19 @@
 // Remove entries from the array until only correct answers remain
 
 // Which function(s) access the weather variable and get "rainy" (Delete wrong answers, leave correct ones)
-var scopeArray1 = ["street", "firstFloor", "secondFloor", "neighbors", "neighborsSecondFloor"];
+var scopeArray1 = ["street", "neighbors", "neighborsSecondFloor"];
 
 // Which function(s) access the weather variable and get "dry" (Delete wrong answers, leave correct ones)
-var scopeArray2 = ["street", "firstFloor", "secondFloor", "neighbors", "neighborsSecondFloor"];
+var scopeArray2 = ["firstFloor", "secondFloor"];
 
 // Which function(s) access the ceiling variable and get undefined (Delete wrong answers, leave correct ones)
-var scopeArray3 = ["street", "firstFloor", "secondFloor", "neighbors", "neighborsSecondFloor"];
+var scopeArray3 = ["street", "firstFloor", "secondFloor"];
 
 // Which functions accesss the ceiling variable and get "leaking" (Delete wrong answers, leave correct ones)
-var scopeArray4 = ["street", "firstFloor", "secondFloor", "neighbors", "neighborsSecondFloor"];
+var scopeArray4 = ["neighbors", "neighborsSecondFloor"];
 
 // Which functions access the temperature variable and get 72 (Delete wrong answers, leave correct ones)
-var scopeArray5 = ["street", "firstFloor", "secondFloor", "neighbors", "neighborsSecondFloor"];
+var scopeArray5 = [ "secondFloor"];
 
 
 // #2  ###################
@@ -50,7 +50,19 @@ var changed = false;
   which changes the variable changed (above) to the boolean true;
   And resolve the promise when setTimeout completes.
 */
-
+var async = function($q) {
+  changed = true;
+  var promise = $q(function(resolve, reject) {
+    if (changed) {
+      resolve('success');
+    }
+    else {
+      reject('bad')
+    }
+  })
+  return promise;
+}
+setTimeout(async(), 2000);
 
 var contextObj = {
   number: 0
@@ -65,7 +77,7 @@ function sum(x, y) {
 // Create a function called context1 that will take in two numbers x and y.
 // invoke sum passing in the two numbers x and y and explicitly set the context to the object called contextObj.
 //
-
+function context1
 
 
 // #4 ####################
