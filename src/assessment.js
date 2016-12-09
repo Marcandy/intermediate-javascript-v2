@@ -50,19 +50,17 @@ var changed = false;
   which changes the variable changed (above) to the boolean true;
   And resolve the promise when setTimeout completes.
 */
-var async = function($q) {
+function async() {
   changed = true;
-  var promise = $q(function(resolve, reject) {
+  var promise = $q(function(){
     if (changed) {
-      resolve('success');
+      resolve('success')
     }
-    else {
-      reject('bad')
-    }
+
   })
-  return promise;
+  return promise
 }
-setTimeout(async(), 2000);
+setTimeout(async(), 1000);
 
 var contextObj = {
   number: 0
@@ -77,7 +75,9 @@ function sum(x, y) {
 // Create a function called context1 that will take in two numbers x and y.
 // invoke sum passing in the two numbers x and y and explicitly set the context to the object called contextObj.
 //
-function context1
+function context1(x, y) {
+  sum.call(contextObj, x, y);
+}
 
 
 // #4 ####################
@@ -85,7 +85,9 @@ function context1
 // Write a function called context2 that will take in an array of numbers called params
 // invoke sum and explicity set the context to the object called contextObj, and pass in the array called params.
 //
-
+function context2(params) {
+  sum.apply(contextObj, params);
+}
 
 
 
@@ -94,20 +96,32 @@ function context1
 // Write a function called context3.
 // Make context3 permanently link the context of sum to the object contextObj.
 // This should give you a new function. Return it.
-
+function context3() {
+  var nf = sum.bind(contextObj);
+  return nf;
+}
 
 
 // #6  ###################
 // # Constructor Function
 // Make a constructor function called Sandwich that takes in 3 parameters: bread, meat, spread and assigns them to identically named properties.
 
-
+function Sandwich(bread, meat, spread) {
+  this.bread = bread;
+  this.meat = meat;
+  this.spread = spread;
+}
 
 
 // #7  ###################
 // # Implicit binding
 // Make a constructor function called RoadTrip.  It has a property called gasLeft = 100.  It has a property called drive that is a function.  When drive is invoked it uses context to implicitly subract 10 from the gasLeft on the roadTrip.
-
+function RoadTrip() {
+  this.gasLeft = 100;
+  this.drive = function() {
+    this.gasLeft -= 10;
+  }
+}
 
 
 
@@ -115,15 +129,29 @@ function context1
 // #8  ###################
 // # Prototype 1
 // Add prototype function called addTwo to the array type that adds two to the value of every item in the array.
-
-
+Array.prototype.addTwo = function() {
+  var narr = this.map(function (num) {//check why foreach was not working
+    return num + 2
+  })
+  return narr;
+};
 
 
 // #9  ###################
 // # Prototype 2
 // Write a constructor function called CoinToss.  It has a property called results which is an empty array.  It has a prototype function called flip.  When flip is invoked it uses context to implicitly add 'heads' or 'tails' to the results array.
+function CoinToss() {
+  this.results = [];
+}
 
-
+CoinToss.prototype.flip = function (coin) {
+  if (coin) {
+    this.results.push('heads');
+  }
+  else {
+    this.results.push('tails');
+  }
+}
 
 
 
@@ -131,7 +159,11 @@ function context1
 // # Closure 1
 // Write a function called animalMachine that creates new animals from two existing animals.  It takes in a parameter called partOne.  It returns a function called animalSmasher.
 // When animalSmasher is invoked it should take in a parameter called partTwo and return a new string that adds partOne and partTwo together.
-
+function animalMachine(partOne) {
+  return function animalSmasher(partTwo) {
+    return partOne + partTwo ;
+  }
+}
 
 
 // #11  ###################
@@ -146,7 +178,16 @@ function context1
 //     guestList: <Array of ingredients goes here>
 // }
 // ```
-
+function partyTime(partyName) {
+  var guestList = [];
+  return function addGuest(guest) {
+    guestList.push(guest);
+    return {
+      partyName: partyName,
+      guestList: guestList
+    }
+  }
+}
 
 
 
@@ -156,3 +197,15 @@ function context1
 // If both parameters are the same type an the same value return "Exact match".
 // If both parameters have the same value but are different types return "Different types"
 // Otherwise return "Different values"
+
+function compareValues(type1, type2) {
+  if (type1 === type2) {
+    return "Exact match";
+  }
+  else if (type1 == type2) {
+    return "Different types";
+  }
+  else {
+    return "Different values";
+  }
+}
